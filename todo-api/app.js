@@ -16,9 +16,9 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/todo-api')
-  .then(() => console.log('connection successful'))
+  .then(() => console.log('connection via mongoose successful'))
   .catch((err) => console.error(err));
-  
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -65,5 +65,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// routes
+var todos = require('./routes/todos');
+app.use('/todos', todos);
 
 module.exports = app;
