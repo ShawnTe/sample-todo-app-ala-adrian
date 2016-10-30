@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+var todos = require('./routes/todos');
 
 var app = express();
 
@@ -16,9 +16,9 @@ var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/todo-api')
-  .then(() => console.log('connection successful'))
+  .then(() => console.log('connection via mongoose successful'))
   .catch((err) => console.error(err));
-  
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -32,7 +32,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/todos', todos);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -56,7 +56,7 @@ if (app.get('env') === 'development') {
 }
 
 // production error handler
-// no stacktraces leaked to user
+// no stacktraces leaked to todo
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
@@ -65,5 +65,8 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// routes
+var todos = require('./routes/todos');
+app.use('/todos', todos);
 
 module.exports = app;
